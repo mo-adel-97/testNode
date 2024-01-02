@@ -2,7 +2,7 @@ const axios = require('axios');
 const cheerio = require('cheerio');
 const zlib = require('zlib');
 const puppeteer = require('puppeteer');
-const GetWebInformatio = require('./handleErrorPage')
+// const GetWebInformatio = require('./handleErrorPage')
 const urlParser = require('url'); // Import the url package
 async function scrapeWebsite(req, res) {
 
@@ -25,23 +25,23 @@ async function scrapeWebsite(req, res) {
 
     console.log("doctypeDeclaration doctypeDeclaration doctypeDeclaration",doctypeDeclaration)
 
-    let websiteInfoIp = null;
-    let websiteInfoCountry = null;
-    let websiteInfoOrganization = null;
+    // let websiteInfoIp = null;
+    // let websiteInfoCountry = null;
+    // let websiteInfoOrganization = null;
 
-    //obtain ip server and provider and country 
-    try {
-       const websiteInfo = await  GetWebInformatio.getWebsiteInformation(url);
-       websiteInfoIp = websiteInfo.ip
-       websiteInfoCountry = websiteInfo.country 
-       websiteInfoOrganization = websiteInfo.organization
-          // Now you can access properties like url, ipAddress, location, organization from websiteInfo
-      console.log('IP:', websiteInfo.ip);
-      console.log('country:', websiteInfo.country);
-      console.log('Organization:', websiteInfo.organization);
-    } catch (error) {
-      console.error('Error:', error.message);
-    }
+    // //obtain ip server and provider and country 
+    // try {
+    //    const websiteInfo = await  GetWebInformatio.getWebsiteInformation(url);
+    //    websiteInfoIp = websiteInfo.ip
+    //    websiteInfoCountry = websiteInfo.country 
+    //    websiteInfoOrganization = websiteInfo.organization
+    //       // Now you can access properties like url, ipAddress, location, organization from websiteInfo
+    //   console.log('IP:', websiteInfo.ip);
+    //   console.log('country:', websiteInfo.country);
+    //   console.log('Organization:', websiteInfo.organization);
+    // } catch (error) {
+    //   console.error('Error:', error.message);
+    // }
 
         // Check for Google Analytics script
         const hasGoogleAnalytics = $('script[src*="google-analytics.com/analytics.js"]').length > 0;
@@ -405,9 +405,9 @@ console.log('Percentage of underscore  URLs:', underscoreUrl, '%');
     languageDeclared,
     screenShoot,
     screenShootPhone,
-    websiteInfoIp ,
-    websiteInfoCountry,
-    websiteInfoOrganization,
+    // websiteInfoIp ,
+    // websiteInfoCountry,
+    // websiteInfoOrganization,
     CheckAnaylstics
     });
 
