@@ -28,6 +28,7 @@ async function scrapeWebsite(req, res) {
     let websiteInfoCountry = null;
     let websiteInfoOrganization = null;
     let CheckAnaylstics = false
+    let screenShoot = null
 
     //obtain ip server and provider and country 
     try {
@@ -49,6 +50,40 @@ async function scrapeWebsite(req, res) {
          CheckAnaylstics = hasGoogleAnalytics || hasMatomo ;
 
         console.log("CheckAnaylstics CheckAnaylstics CheckAnaylstics CheckAnaylstics",CheckAnaylstics)
+
+        //         // Capture screenshot using Puppeteer
+        const browser = await puppeteer.launch({
+          headless: 'new'
+        });
+        const page = await browser.newPage();
+        await page.goto(decodedUrl);
+        const screenshotBuffer = await page.screenshot();
+        await browser.close();
+
+         screenShoot = screenshotBuffer.toString('base64')
+let screenShootPhone = null ;
+        try {
+          // Capture screenshot using Puppeteer with mobile viewport
+          const browser = await puppeteer.launch({ headless: 'new' });
+          const pagePhone = await browser.newPage();
+        
+          // Emulate a mobile device
+          await pagePhone.setViewport({
+            width: 375, // iPhone 6/7/8 viewport width
+            height: 667, // iPhone 6/7/8 viewport height
+            isMobile: true,
+            hasTouch: true,
+            deviceScaleFactor: 2,
+          });
+        
+          await pagePhone.goto(decodedUrl);
+          const screenshotBufferMobile = await pagePhone.screenshot();  // Fix: Use pagePhone instead of page
+          await browser.close();  // Fix: Close the browser, not browserPhone
+        
+          screenShootPhone = screenshotBufferMobile.toString('base64');
+        } catch (err) {
+          console.log("Error when extracting screenShoot", err);
+        }
     } catch (error) {
       console.error('Error:', error.message);
     }
@@ -59,43 +94,12 @@ async function scrapeWebsite(req, res) {
       websiteInfoCountry,
       websiteInfoOrganization,
       pageLoadTimeSeconds,
-      CheckAnaylstics
+      CheckAnaylstics,
+      screenShoot
     })
 
 
-//         // Capture screenshot using Puppeteer
-//         const browser = await puppeteer.launch({
-//           headless: 'new'
-//         });
-//         const page = await browser.newPage();
-//         await page.goto(decodedUrl);
-//         const screenshotBuffer = await page.screenshot();
-//         await browser.close();
 
-//         const screenShoot = screenshotBuffer.toString('base64')
-// let screenShootPhone = null ;
-//         try {
-//           // Capture screenshot using Puppeteer with mobile viewport
-//           const browser = await puppeteer.launch({ headless: 'new' });
-//           const pagePhone = await browser.newPage();
-        
-//           // Emulate a mobile device
-//           await pagePhone.setViewport({
-//             width: 375, // iPhone 6/7/8 viewport width
-//             height: 667, // iPhone 6/7/8 viewport height
-//             isMobile: true,
-//             hasTouch: true,
-//             deviceScaleFactor: 2,
-//           });
-        
-//           await pagePhone.goto(decodedUrl);
-//           const screenshotBufferMobile = await pagePhone.screenshot();  // Fix: Use pagePhone instead of page
-//           await browser.close();  // Fix: Close the browser, not browserPhone
-        
-//           screenShootPhone = screenshotBufferMobile.toString('base64');
-//         } catch (err) {
-//           console.log("Error when extracting screenShoot", err);
-//         }
 
 //     // Check if the language is declared
 //     const langAttribute = $('html').attr('lang');
