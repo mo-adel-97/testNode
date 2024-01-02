@@ -5,6 +5,7 @@ const puppeteer = require('puppeteer');
 const GetWebInformatio = require('./handleErrorPage')
 const urlParser = require('url'); // Import the url package
 async function scrapeWebsite(req, res) {
+
   const url = req.query.url;
 
   try {
@@ -431,8 +432,9 @@ console.log('Percentage of underscore  URLs:', underscoreUrl, '%');
     console.log("pageLoadTimeSeconds",pageLoadTimeSeconds)
     console.log("languageDeclared",languageDeclared)
   } catch (error) {
-    res.status(500).json({ error: 'Failed to fetch the webpage.' });
-  }
+  console.error('Error:', error);
+  throw new Error('Failed to fetch website information.');
+}
 }
 
 module.exports = {

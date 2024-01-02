@@ -29,10 +29,10 @@ async function getWebsiteInformation(url) {
       country:country ,
       organization: org,
     };
-  } catch (error) {
-    console.error('Error:', error.message);
-    throw new Error('Failed to fetch website information.');
-  }
+} catch (error) {
+  console.error('Error:', error);
+  throw new Error('Failed to fetch website information.');
+}
 }
 
 module.exports = {
