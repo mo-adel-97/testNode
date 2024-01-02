@@ -7,7 +7,16 @@ const app = express();
 app.timeout = 3000000000000000;
 
 app.use(express.json());
-app.use(cors()); // Enable CORS for all routes
+// Enable CORS with specific options
+const corsOptions = {
+  origin: 'http://localhost:3000', // replace with your allowed origin
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  credentials: true, // enable credentials (cookies, authorization headers, etc.)
+  optionsSuccessStatus: 204, // for preflight requests
+};
+
+app.use(cors(corsOptions));
+
 
 
 app.use(scrapeRoutes);
