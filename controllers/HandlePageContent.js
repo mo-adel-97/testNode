@@ -27,6 +27,7 @@ async function scrapeWebsite(req, res) {
         let websiteInfoIp = null;
     let websiteInfoCountry = null;
     let websiteInfoOrganization = null;
+    let CheckAnaylstics = false
 
     //obtain ip server and provider and country 
     try {
@@ -38,6 +39,16 @@ async function scrapeWebsite(req, res) {
       console.log('IP:', websiteInfo.ip);
       console.log('country:', websiteInfo.country);
       console.log('Organization:', websiteInfo.organization);
+      
+        // Check for Google Analytics script
+        const hasGoogleAnalytics = $('script[src*="google-analytics.com/analytics.js"]').length > 0;
+
+        // Check for Matomo (Piwik) script
+        const hasMatomo = $('script[src*="matomo.js"]').length > 0;
+   
+         CheckAnaylstics = hasGoogleAnalytics || hasMatomo ;
+
+        console.log("CheckAnaylstics CheckAnaylstics CheckAnaylstics CheckAnaylstics",CheckAnaylstics)
     } catch (error) {
       console.error('Error:', error.message);
     }
@@ -47,19 +58,10 @@ async function scrapeWebsite(req, res) {
       websiteInfoIp,
       websiteInfoCountry,
       websiteInfoOrganization,
-      pageLoadTimeSeconds
+      pageLoadTimeSeconds,
+      CheckAnaylstics
     })
 
-
-//         // Check for Google Analytics script
-//         const hasGoogleAnalytics = $('script[src*="google-analytics.com/analytics.js"]').length > 0;
-
-//         // Check for Matomo (Piwik) script
-//         const hasMatomo = $('script[src*="matomo.js"]').length > 0;
-   
-//         const CheckAnaylstics = hasGoogleAnalytics || hasMatomo ;
-
-//         console.log("CheckAnaylstics CheckAnaylstics CheckAnaylstics CheckAnaylstics",CheckAnaylstics)
 
 //         // Capture screenshot using Puppeteer
 //         const browser = await puppeteer.launch({
