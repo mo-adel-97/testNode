@@ -4,6 +4,8 @@ const scrapeRoutes = require('./Routes/HandleViewContentRoute');
 
 const app = express();
 
+app.timeout = 3000000000000000;
+
 app.use(express.json());
 app.use(cors()); // Enable CORS for all routes
 
